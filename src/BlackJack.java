@@ -6,7 +6,7 @@ public class BlackJack {
     private Deck deck;
     private ArrayList<Card> player;
     private ArrayList<Card> dealer;
-
+// hi
     Scanner kb;
 
     public BlackJack() {
