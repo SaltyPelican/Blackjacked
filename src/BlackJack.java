@@ -11,7 +11,7 @@ public class BlackJack {
     private static boolean firstBet; // whether the player has bet before to decide how to introduce bet method
 
     // need to do something with printing current bet
-
+    //
     Scanner kb;
 
     public BlackJack() {
