@@ -42,8 +42,35 @@ public class BlackJack {
         System.out.println("Player hand: " + player);
 
         playerTurn();
+        dealerTurn();
+        determineWinner();
+
+        resetGame();
+    }
+
+    private void playRound() {
+        // dealCards()
+        deck.shuffle();
+
+        printBank();
+        bet();
+
+        player.add(deck.getCard());
+        dealer.add(deck.getCard());
+        player.add(deck.getCard());
+        dealer.add(deck.getCard());
+
+        System.out.println("Dealer hand: " + dealer.get(0) + " [?]");
+        System.out.println("Player hand: " + player);
+
+
+        playerTurn();
+        dealerTurn();
+        determineWinner();
+    }
+
+    public void determineWinner() {
         if (calcHandValue(player) <= 21) {
-            dealerTurn();
             if (calcHandValue(dealer) > 21 || calcHandValue(player) > calcHandValue(dealer)) {
                 System.out.println("Player wins!");
                 bankroll = bankroll + (2 * bet);
@@ -60,11 +87,9 @@ public class BlackJack {
             }
 
         }
-        replay();
-
     }
 
-    private void replay() {
+    private void resetGame() {
         System.out.println("Do you want to play again? (y/n)");
         String response = kb.nextLine();
         if (response.equals("y")){
@@ -74,12 +99,13 @@ public class BlackJack {
         // remakes a game object and runs it
         else if (response.equals("n")){
             System.out.println("Thank you for playing.");
+            printBank();
             return;
         }
         // just continues on with the code ending
         else {
             System.out.println("Please choose a valid input.");
-            replay();
+            resetGame();
         }
         // redoes the method if a different response was given than y or n
     }
@@ -101,10 +127,12 @@ public class BlackJack {
             if (bet < 2 || bet > 500) {
                 System.out.println("Please choose a bet within the range.");
                 bet(); // recalls method if player chooses amount outside of range of money they can bet
+                return;
             }
             else if(bet > bankroll) {
                 System.out.println("Please choose a bet within the amount of money you have.");
                 bet();
+                return;
             }
             bankroll -= bet;
         }
@@ -120,6 +148,12 @@ public class BlackJack {
             if (bet < 2 || bet > 500) {
                 System.out.println("Please choose a bet within the range.");
                 bet(); // recalls method if player chooses amount outside of range of money they can bet
+                return;
+            }
+            else if(bet > bankroll) {
+                System.out.println("Please choose a bet within the amount of money you have.");
+                bet();
+                return;
             }
             bankroll -= bet;
         }
@@ -140,8 +174,6 @@ public class BlackJack {
             }
         } while (response.equals("hit"));
     }
-
-
 
     private void dealerTurn() {
         while (calcHandValue(dealer) < 17) {
